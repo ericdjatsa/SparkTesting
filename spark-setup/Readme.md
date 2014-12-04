@@ -1,5 +1,11 @@
 #### HOW TO SETUP SPARK CLUSTER  
 
+## CLUSTER INFO : 
+- HADOOP version : Hadoop 2.5.0-cdh5.2.0
+- Spark version  : 1.1.0
+- Scala version  : 2.10.4 
+- Java           : Java 1.7.0_65
+- Java JDK       : OpenJDK 64-Bit Server VM
 
 Je ne suis pas passé par cloudera manager.... j'ai essayé mais bof.
 
