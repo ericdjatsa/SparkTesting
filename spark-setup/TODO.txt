@@ -1,0 +1,10 @@
+
+Unable to find image 'pti1/sparkslave:secondversion' locally
+Repository pti1/sparkslave already being pulled by another client. Waiting.
+
+#TODO
+parallelize containers imports
+- dns // master // first slave
+- second slave
+
+ 
