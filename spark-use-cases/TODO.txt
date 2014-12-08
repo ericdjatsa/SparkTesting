@@ -4,3 +4,7 @@ In  BookingAnalysisSQL , implement multiple output so that we can store several 
 - total price per segment
 - nbbookings per carrier
 - etc ...
+
+Next implement Spark Streaming : 
+- simple web page for inserting bookings
+- val lines = ssc.socketTextStream("localhost", 9999) : get data in JSON format
