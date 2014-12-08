@@ -1,0 +1,6 @@
+# 08/12/2014
+In  BookingAnalysisSQL , implement multiple output so that we can store several sql computations :
+- nb bookings per city pair
+- total price per segment
+- nbbookings per carrier
+- etc ...
