@@ -8,7 +8,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.SparkConf
 
-object BookingsAnalysis {
+object BookingAnalysis {
   def main(args: Array[String]) {
     
     // Create a Spark conf
@@ -31,7 +31,7 @@ object BookingsAnalysis {
     				map(_.split(",")).
     				    map(fields => BookingRecord(fields(0),fields(1),fields(2),fields(3),fields(4),
     				    							fields(5),fields(6),fields(7),fields(8),
-    				    							fields(9),fields(10).toInt,fields(11).toFloat))
+    				    							fields(9),fields(10).trim.toInt,fields(11).trim.toFloat))
     
     				    							
     // Group the bookings by departureCity and destination city then count the occurrences for each combination
