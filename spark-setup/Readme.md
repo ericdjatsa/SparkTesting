@@ -6,6 +6,8 @@
 - Scala version  : 2.10.4 
 - Java           : Java 1.7.0_65
 - Java JDK       : OpenJDK 64-Bit Server VM
+- Yarn resource manager Web UI : <master IP Adress>:8088
+  
 
 Je ne suis pas passé par cloudera manager.... j'ai essayé mais bof.
 
