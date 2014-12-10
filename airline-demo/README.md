@@ -1,6 +1,7 @@
 Running airline demo
 =================
 
+
 Please, firstly, call on your host, the script getdemotars.sh. This script will download from dropbox, all data files, and place them under /tmp/ansible_share
 
 
@@ -21,3 +22,8 @@ Then from airline-demo, run "mvn install", this will create a fat jar under targ
 finally:
 spark-submit --class com.airline.PreProcessFlights --master yarn target/sparkwordcount-0.0.1-SNAPSHOT.jar output output
 
+
+External Libs : 
+ 
+Simple Voronoi algorithm : 
+http://ageeksnotes.blogspot.fr/2010/11/fast-java-implementation-fortunes.html

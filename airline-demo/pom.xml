@@ -124,7 +124,7 @@
       <artifactId>simplevoronoi</artifactId>
       <scope>system</scope>
       <version>0.2-SNAPSHOT</version>
-      <systemPath>/root/.m2/repository/be/humphreys/simplevoronoi/0.2-SNAPSHOT//simplevoronoi-0.2-SNAPSHOT.jar</systemPath>
+      <systemPath>${basedir}/libs/simplevoronoi-0.2-SNAPSHOT.jar</systemPath>
    </dependency>
 
    <dependency>
