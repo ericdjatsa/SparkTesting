@@ -67,8 +67,8 @@ def eval_metrics(labelsAndPreds: RDD[(Double, Double)]) : Tuple2[Array[Double], 
   val outputPath = args(0)
 
 
-  val data_2007 = prepFlightDelays(sc, "hdfs://hadoopmaster.example.com:8020//user/root/airline2007.csv.bz2").map(rec => rec.gen_features._2)
-  val data_2008 = prepFlightDelays(sc, "hdfs://hadoopmaster.example.com:8020/user/root/airline2008.csv.bz2").map(rec => rec.gen_features._2)
+  val data_2007 = prepFlightDelays(sc, "hdfs://master.example.com:8020//user/root/airline2007.csv.bz2").map(rec => rec.gen_features._2)
+  val data_2008 = prepFlightDelays(sc, "hdfs://master.example.com:8020/user/root/airline2008.csv.bz2").map(rec => rec.gen_features._2)
   //data_2007.take(5).map(x => x mkString ",").foreach(println)
 
   // Prepare training set

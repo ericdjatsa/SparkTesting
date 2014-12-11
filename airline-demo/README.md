@@ -1,6 +1,9 @@
-Running airline demo
+Running airline demo - Flight Delays
 =================
-
+[sources]
+http://hortonworks.com/blog/data-science-apacheh-hadoop-predicting-airline-delays/ 
+http://hortonworks.com/blog/data-science-hadoop-spark-scala-part-2/
+http://nbviewer.ipython.org/github/ofermend/IPython-notebooks/blob/master/blog-part-2.ipynb
 
 Please, firstly, call on your host, the script getdemotars.sh. This script will download from dropbox, all data files, and place them under /tmp/ansible_share
 
@@ -20,7 +23,10 @@ on each file downloaded in first step, bring them to hdfs under /user/root
 Then from airline-demo, run "mvn install", this will create a fat jar under target directory
 
 finally:
-spark-submit --class com.airline.PreProcessFlights --master yarn target/sparkwordcount-0.0.1-SNAPSHOT.jar output output
+spark-submit --class com.airline.PreProcessFlights --master yarn target/sparkairline-0.0.1-SNAPSHOT.jar /user/root/output
+
+printed output example : 
+precision = 0.37, recall = 0.64, F1 = 0.47, accuracy = 0.59
 
 
 External Libs : 
