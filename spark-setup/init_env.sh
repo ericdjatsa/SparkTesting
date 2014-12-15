@@ -20,3 +20,15 @@ alias mydockerinfo='sudo docker inspect --format "{{ .Config.Hostname }} {{ .Net
 alias mydockerallinfo='sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .Config.Hostname }} {{ .NetworkSettings.IPAddress }}
 "'
  
+##################
+#   FUNCTIONS    #
+##################
+
+#Input params
+#$1 : container ID or container name
+function isContainerRunning(){
+	local _isRunning
+	local cid_or_name
+	_isRunning=`docker ps | grep "$cid_or_name"`
+	echo "$_isRunning"
+}

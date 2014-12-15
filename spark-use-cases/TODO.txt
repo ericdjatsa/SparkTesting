@@ -8,3 +8,6 @@ In  BookingAnalysisSQL , implement multiple output so that we can store several 
 Next implement Spark Streaming : 
 - simple web page for inserting bookings
 - val lines = ssc.socketTextStream("localhost", 9999) : get data in JSON format
+
+
+spark-submit --class com.bigdatawave.bookingsanalysis.BookingAnalysisStreaming --master yarn  --executor-cores 4  /opt/bookingsanalysis/target/bookinganalysis-0.0.1-SNAPSHOT.jar 172.17.0.20 9999 60

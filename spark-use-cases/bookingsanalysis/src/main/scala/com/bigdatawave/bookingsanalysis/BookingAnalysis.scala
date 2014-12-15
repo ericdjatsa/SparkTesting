@@ -21,7 +21,7 @@ object BookingAnalysis {
     
     // Lines have the following fields
     // BookingID, BookingTimestamp , CarrierCode, FlightID, CustomerID, 
-    // AgeCategory , DepartureCity, DestinationCity, DepartureDate, ReturnDate, NbPassengers , TicketPrice
+    // AgeCategory , departureAirport, destinationAirport, DepartureDate, ReturnDate, NbPassengers , TicketPrice
     
     // Get the lines of the input file
     val rawlines = sc.textFile(args(0))
@@ -35,14 +35,14 @@ object BookingAnalysis {
     
     				    							
     // Group the bookings by departureCity and destination city then count the occurrences for each combination
-    val citypairsCount = bookings.groupBy(booking => (booking.departureCity,booking.destinationCity)).mapValues(_.size)				    							
+    val airportpairsCount = bookings.groupBy(booking => (booking.departureAirport,booking.destinationAirport)).mapValues(_.size)				    							
     
     // Swap keys and values for sorting purpose, then apply sorting on count
-    val citypairsCountOrdered = (citypairsCount.map{ case ((city1,city2),count) => (count,(city1,city2)) }).sortByKey(ascending=false)
+    val airportpairsCountOrdered = (airportpairsCount.map{ case ((city1,city2),count) => (count,(city1,city2)) }).sortByKey(ascending=false)
     
     // Save output to a textFile
-    citypairsCountOrdered.saveAsTextFile(outputPath)
+    airportpairsCountOrdered.saveAsTextFile(outputPath)
     
-    //System.out.println(citypairsCount.collect().mkString(", "))
+    //System.out.println(airportpairsCount.collect().mkString(", "))
   }
 }

@@ -18,7 +18,7 @@ object BookingAnalysisSQL {
     
     // Lines have the following fields
     // BookingID, BookingTimestamp , CarrierCode, FlightID, CustomerID, 
-    // AgeCategory , DepartureCity, DestinationCity, DepartureDate, ReturnDate, NbPassengers , TicketPrice
+    // AgeCategory , departureAirport, destinationAirport, DepartureDate, ReturnDate, NbPassengers , TicketPrice
     
     // Get the lines of the input file
     val rawlines = sc.textFile(args(0))
@@ -39,13 +39,13 @@ object BookingAnalysisSQL {
     // Register the BookingRecords as a Spark SQL table
     bookings.registerAsTable("Bookings")
 
-	val citypairsCountOrdered = sqlContext.sql("""select departureCity, destinationCity,count(*) as numbookings 
+	val airportpairsCountOrdered = sqlContext.sql("""select departureCity, destinationCity,count(*) as numbookings 
 												  from Bookings 
-												  group by departureCity,destinationCity
+												  group by departureAirport,destinationAirport
 												  order by numbookings desc""")
 												  
     // Save output to a textFile
-    citypairsCountOrdered.saveAsTextFile(outputPath)
+    airportpairsCountOrdered.saveAsTextFile(outputPath)
     
   }
 

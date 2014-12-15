@@ -37,6 +37,10 @@ demoContext=$1
 SCRIPT_PATH=`readlink -f $0`
 SPARK_SETUP_DIR=`dirname $SCRIPT_PATH`
 
+echo "Sourcing init_env.sh"
+source $SPARK_SETUP_DIR/init_env.sh
+
+
 # Start DNS server
 startingLog "DNS SERVER"
 $SPARK_SETUP_DIR/0_startdns.sh
@@ -62,8 +66,5 @@ $SPARK_SETUP_DIR/2_startfirstslave.sh
 # Start the second slave
 startingLog "SPARK SLAVE 2"
 $SPARK_SETUP_DIR/3_startsecondslave.sh
-
-echo "Sourcing init_env.sh"
-source $SPARK_SETUP_DIR/init_env.sh
 
 echo "DONE!"

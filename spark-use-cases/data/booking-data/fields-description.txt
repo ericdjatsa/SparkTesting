@@ -1,2 +1,2 @@
-BookingID, BookingTimestamp , CarrierCode, FlightID, CustomerID, AgeCategory , DepartureCity, DestinationCity, DepartureDate, ReturnDate, NbPassengers , TicketPrice 
+BookingID, BookingTimestamp , CarrierCode, FlightID, CustomerID, AgeCategory , DepartureAirport, DestinationAirport, DepartureDate, ReturnDate, NbPassengers , TicketPrice 
  
