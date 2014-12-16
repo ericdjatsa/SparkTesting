@@ -19,7 +19,9 @@ alias mydockerinfo='sudo docker inspect --format "{{ .Config.Hostname }} {{ .Net
 # usage : mydockerallinfo 
 alias mydockerallinfo='sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .Config.Hostname }} {{ .NetworkSettings.IPAddress }}
 "'
- 
+
+alias mydockeretchosts='sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .NetworkSettings.IPAddress }}    {{ .Config.Hostname }}.{{ .Config.Domainname }}"'
+
 ##################
 #   FUNCTIONS    #
 ##################
