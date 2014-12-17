@@ -1,7 +1,7 @@
 
 package com.airline
 
-object kiki {
+object Dummy {
 
   def main(args: Array[String]): Unit = {}
 

@@ -1,0 +1,11 @@
+Flight Number 1, from ORD, destination = HNL:prediction for delay= 1.0, actual delay=1.0
+Flight Number 10, from ORD, destination = PHX:prediction for delay= 1.0, actual delay=1.0
+Flight Number 100, from ORD, destination = GRR:prediction for delay= 1.0, actual delay=0.0
+Flight Number 1000, from DEN, destination = ORD:prediction for delay= 0.0, actual delay=0.0
+Flight Number 1001, from ORD, destination = DEN:prediction for delay= 0.0, actual delay=0.0
+Flight Number 1002, from GEG, destination = ORD:prediction for delay= 0.0, actual delay=0.0
+Flight Number 1003, from ORD, destination = GEG:prediction for delay= 0.0, actual delay=0.0
+Flight Number 1004, from ORD, destination = MIA:prediction for delay= 1.0, actual delay=0.0
+Flight Number 1005, from ORD, destination = PHL:prediction for delay= 0.0, actual delay=0.0
+Flight Number 1006, from SMF, destination = ORD:prediction for delay= 1.0, actual delay=0.0
+ 

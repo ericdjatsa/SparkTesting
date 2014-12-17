@@ -173,7 +173,8 @@ object PredictDelayStreaming {
     // Now create a Spark Streaming context: read monitored folder every seconds
     val ssc = new StreamingContext(conf, Seconds(10))
     
-    // create distributed counters
+    // create distributed counters in order to count the
+    // total number of Good and Bad predictions
     val goodPredicAccum = ssc.sparkContext.accumulator(0, "Good Prediction")
     val badPredicAccum = ssc.sparkContext.accumulator(0, "Bad Prediction")
     

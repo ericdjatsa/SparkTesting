@@ -106,15 +106,32 @@ object BuildAirlineDelayModel {
 
   // Function to compute evaluation metrics
   def eval_metrics(labelsAndPreds: RDD[(Double, Double)]): Tuple2[Array[Double], Array[Double]] = {
+    //True Positive
     val tp = labelsAndPreds.filter(r => r._1 == 1 && r._2 == 1).count.toDouble
+    //True Negative
     val tn = labelsAndPreds.filter(r => r._1 == 0 && r._2 == 0).count.toDouble
+    //False Positive
     val fp = labelsAndPreds.filter(r => r._1 == 1 && r._2 == 0).count.toDouble
+    // False Negative
     val fn = labelsAndPreds.filter(r => r._1 == 0 && r._2 == 1).count.toDouble
-
+    
+    // Explanation for precision and recall : http://en.wikipedia.org/wiki/Precision_and_recall
+    
+    // Precision = (True Positive) / ( True Positive + False Positive )
+    // How many selected items are relevant ?
     val precision = tp / (tp + fp)
+    
+    // recall : how many relevant items where selected
     val recall = tp / (tp + fn)
+    //high precision means that an algorithm returned substantially more relevant results than irrelevant, 
+    // while high recall means that an algorithm returned most of the relevant results
+    
     val F_measure = 2 * precision * recall / (precision + recall)
+    // F_measure : measure of a test's accuracy. Weighted average of the precision and recall, 
+    // where an F1 score reaches its best value at 1 and worst score at 0.
+    
     val accuracy = (tp + tn) / (tp + tn + fp + fn)
+    // accuracy : proportion of true results (both true positives and true negatives)
     new Tuple2(Array(tp, tn, fp, fn), Array(precision, recall, F_measure, accuracy))
   }
 
@@ -126,6 +143,7 @@ object BuildAirlineDelayModel {
     val conf = new SparkConf().setAppName("Preprocessing Flights")
     var inputFile = "" 
     var modelPath=""
+    var perfMetricsPath=""
     
     // retrieve input arguments
     // when called from eclipse no arguments
@@ -134,11 +152,13 @@ object BuildAirlineDelayModel {
        // we provide to run in eclipse 
        inputFile =  "src/main/resources/modeldata/airline2007.csv"
        modelPath = "target/airline.model"
+       perfMetricsPath = "target/airline.model_perf_metrics"
        conf.setMaster("local")
     }   
     else { 
        inputFile=args(0)
        modelPath=args(1)
+       perfMetricsPath=args(2)
     }
       
     // Now create a Spark context
@@ -181,18 +201,31 @@ object BuildAirlineDelayModel {
       (pred, point.label)
     }
     val m_svm = eval_metrics(labelsAndPreds_svm)._2
-    println("precision = %.2f, recall = %.2f, F1 = %.2f, accuracy = %.2f".format(m_svm(0), m_svm(1), m_svm(2), m_svm(3)))
-
-    // save model to hdfs
+    
+    // Model performance metrics
+    val model_perf_metrics = "precision = %.2f, recall = %.2f, F1 = %.2f, accuracy = %.2f".format(m_svm(0), m_svm(1), m_svm(2), m_svm(3))
+    
+    println(model_perf_metrics)
+    
+    // save model_perf_metrics to hdfs
+    sc.parallelize(List(model_perf_metrics)).saveAsTextFile(perfMetricsPath)
+    
     val hadoopConf = new org.apache.hadoop.conf.Configuration() //get's default configuration
     val fs=FileSystem.get(hadoopConf);
-    val outputStream=fs.create(new Path(modelPath))
-    val oos=new ObjectOutputStream(outputStream)  
+    // save model_perf_metrics to hdfs
+    /*
+     * TODO : investigate why the lines below do not do the job expected
+    val perfMetricsOutputStream=fs.create(new Path(perfMetricsPath))
+    val perfos = new ObjectOutputStream(perfMetricsOutputStream)
+    perfos.writeObject(model_perf_metrics)
+    perfos.close 
+    */
+    
+    // save model to hdfs
+    val modelOutputStream=fs.create(new Path(modelPath))
+    val oos=new ObjectOutputStream(modelOutputStream)  
     oos.writeObject(model_svm)
     oos.close 
-    
-    
-   
     
   }
 }

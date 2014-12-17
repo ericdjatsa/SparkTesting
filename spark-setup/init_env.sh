@@ -9,6 +9,13 @@
 # before being able to use them in the script
 shopt -s expand_aliases 2> /dev/null
 
+
+#Backup /etc/hosts file
+alias mybackupetchosts='sudo cp /etc/hosts /etc/bkp_hosts_`date +"%d%b%Y_%Hh%M"`'
+
+# Clean /etc/hosts : remove docker containers names and IP adresses eventually inserted with the command above
+alias mycleanetchosts='sudo sed -i -e "/.example.com/d" -e "/# Docker containers/d" /etc/hosts'
+
 #### Docker commands #####
 #Get a container's name and IP address
 # usage : mydockerinfo <container name OR container ID >
@@ -20,7 +27,10 @@ alias mydockerinfo='sudo docker inspect --format "{{ .Config.Hostname }} {{ .Net
 alias mydockerallinfo='sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .Config.Hostname }} {{ .NetworkSettings.IPAddress }}
 "'
 
-alias mydockeretchosts='sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .NetworkSettings.IPAddress }}    {{ .Config.Hostname }}.{{ .Config.Domainname }}"'
+#Get containers' fully qualified names and IP addresses
+# The output of this command is mainly intended to be piped to /etc/hosts file on the host machine
+# in order to be able to access to services exposed in the docker containers from the host machine browse
+alias mydockeretchosts=' { echo "# Docker containers" ; sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .NetworkSettings.IPAddress }}    {{ .Config.Hostname }}.{{ .Config.Domainname }}"; }'
 
 ##################
 #   FUNCTIONS    #

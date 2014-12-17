@@ -17,6 +17,7 @@ do
 
    if [ $filenb -gt $oldfilenb ];
    then
+     echo "Streaming 100 flights data in airline2008-$oldfilenb.csv to HDFS ... "
      hadoop fs -copyFromLocal /tmp/tempodata/airline2008-$oldfilenb.csv streaming/airline2008-$oldfilenb.csv
      sleep 5
    fi  
@@ -25,5 +26,5 @@ do
 
    oldfilenb=$((filenb))
 
-done < /ansible-share/demo/airline2008.csv
+done < /tmp/ansible-share/demo/airline2008.csv
 
