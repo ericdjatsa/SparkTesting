@@ -22,10 +22,10 @@ object BookingAnalysisStreaming {
     
     // Uncomment the 2 lines below for when running the code under eclipse
     // in order to get rid of all the logs and focus only on the standard output
-    /*
-    Logger.getLogger("org").setLevel(Level.OFF)
-    Logger.getLogger("akka").setLevel(Level.OFF)
-    */
+   
+    Logger.getLogger("org").setLevel(Level.ERROR)
+    Logger.getLogger("akka").setLevel(Level.ERROR)
+    
     
 	// Get parameters from arguments
 	val hostname = args(0)
@@ -35,7 +35,7 @@ object BookingAnalysisStreaming {
 	val conf = new SparkConf().setAppName("BookingAnalysisStreaming")
 	
 	// Uncomment the line below when testing under eclipse
-	// conf.setMaster("local[2]")
+	conf.setMaster("local[2]")
 	
 	// Now create a Spark context
     val sc = new SparkContext(conf)

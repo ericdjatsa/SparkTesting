@@ -32,6 +32,10 @@ alias mydockerallinfo='sudo docker ps | tail -n +2 | while read cid restOfLine; 
 # in order to be able to access to services exposed in the docker containers from the host machine browse
 alias mydockeretchosts=' { echo "# Docker containers" ; sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .NetworkSettings.IPAddress }}    {{ .Config.Hostname }}.{{ .Config.Domainname }}"; }'
 
+# Connect through ssh to the master container
+alias mydockergotomaster='ssh root@`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" master`'
+
+
 ##################
 #   FUNCTIONS    #
 ##################

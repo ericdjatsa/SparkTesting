@@ -39,10 +39,11 @@ object BookingAnalysisSQL {
     // Register the BookingRecords as a Spark SQL table
     bookings.registerAsTable("Bookings")
 
-	val airportpairsCountOrdered = sqlContext.sql("""select departureCity, destinationCity,count(*) as numbookings 
-												  from Bookings 
-												  group by departureAirport,destinationAirport
-												  order by numbookings desc""")
+	val airportpairsCountOrdered = sqlContext.sql("""SELECT departureAirport, destinationAirport, count(*) as numbookings 
+												  FROM Bookings 
+												  GROUP BY departureAirport,destinationAirport
+												  ORDER BY numbookings DESC
+												 """)
 												  
     // Save output to a textFile
     airportpairsCountOrdered.saveAsTextFile(outputPath)

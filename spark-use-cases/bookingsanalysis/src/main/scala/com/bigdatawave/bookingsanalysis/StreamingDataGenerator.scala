@@ -10,7 +10,7 @@ import scala.io.Source
 object StreamingDataGenerator {
 	def main(args : Array[String]) {
     if (args.length != 3) {
-      System.err.println("Usage: StreamingDataGenerator <port> <file> <bytesPerSecond>")
+      System.err.println("Usage: StreamingDataGenerator <port> <inpufile> <linesPerSecond>")
       System.exit(1)
     }
     val port = args(0).toInt
@@ -20,7 +20,7 @@ object StreamingDataGenerator {
     val sleepDelayMs = (1000.0 / linesPerSecond).toInt
     val listener = new ServerSocket(port)
     
-    println("Reading from file: " + file)
+    println("Reading from file: " + args(1))
 
     while (true) {
       println("Listening on port: " + port)

@@ -8,21 +8,22 @@ To make a jar:
     mvn package
 
 
+Prepare config on host machine 
+
+host> cd <PROJECT_REPO>/spark-setup
+host> source init_env.sh
+host> sudo su 
+host> mybackupetchosts
+host> mydockeretchosts >> /etc/hosts
+
+
 Copy input data
 Prepare hdfs paths and data : 
 
-``` 
-    host> masterIPaddress=`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" master`
-    
-    host> scp spark-use-cases/data/booking-data/demo-bookings.csv root@$masterIPaddress:~   (password is : "root")
-    
-    host> scp spark-use-cases/bookingsanalysis/target/bookinganalysis-0.0.1-SNAPSHOT.jar root@$masterIPaddress:~
-    
-    host> sudo ssh root@$masterIPaddress    (password is : "root")
-    
-    master> hdfs dfs -mkdir -p /user/root/data/input
-    master> hdfs dfs -mkdir -p /user/root/data/output
-    master> hdfs dfs -copyFromLocal ~/demo-bookings.csv /user/root/data/input
+```   
+    master> hdfs dfs -mkdir -p /user/root/input
+    master> hdfs dfs -mkdir -p /user/root/output
+    master> hdfs dfs -copyFromLocal /opt/data/demo-bookings.csv /user/root/input
     
 ```
 To run from a gateway node in a CDH5 cluster:
@@ -41,11 +42,35 @@ __Eg__ :
 
 ```
 * Run standard bookinganalysis 
-    master> spark-submit --class com.bigdatawave.bookingsanalysis.BookingAnalysis --master yarn \
-      bookingsanalysis-0.0.1-SNAPSHOT.jar hdfs:///user/root/data/input/demo-bookings.csv /user/root/data/output/standard
+    master> cd /opt/bookingsanalysis/src/main/resources
+    master> ./runBookingAnalysis_standard.sh
+
+* view results
+     master> hdfs dfs -cat /user/root/output/standard/*
+
 
 * Run bookinganalysis with Spark SQL
-    master> spark-submit --class com.bigdatawave.bookingsanalysis.BookingAnalysisSQL --master yarn \
-      bookingsanalysis-0.0.1-SNAPSHOT.jar hdfs:///user/root/data/input/demo-bookings.csv /user/root/data/output/sql
+    master> cd /opt/bookingsanalysis/src/main/resources
+    master> runBookingAnalysis_sql.sh
+
+* view results
+     master> hdfs dfs -cat /user/root/output/sql/*
 ```
 
+
+Bookings Analysis Streaming ( to be run in Eclipse )
+
+
+set Environment variable : 
+SPARK_LOCAL_IP = <IP ADRESS OF HOST> OR 127.0.0.1
+
+Run StreamingDataGenerator with following arguments : 
+9999
+/home/edy/Work/Projects/Spark/sparkrepoeric/spark-use-cases/data/booking-data/demo-bookings.csv
+2         <--- stream 2 lines per second
+
+Run BookingsAnalysisStreaming with following arguments : 
+
+<IP ADRESS OF HOST> OR 127.0.0.1
+9999
+1        <--- 1 second time window
