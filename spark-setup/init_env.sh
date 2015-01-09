@@ -16,16 +16,63 @@ alias mybackupetchosts='sudo cp /etc/hosts /etc/bkp_hosts_`date +"%d%b%Y_%Hh%M"`
 # Clean /etc/hosts : remove docker containers names and IP adresses eventually inserted with the command above
 alias mycleanetchosts='sudo sed -i -e "/.example.com/d" -e "/# Docker containers/d" /etc/hosts'
 
-#### Docker commands #####
-#Get a container's name and IP address
-# usage : mydockerinfo <container name OR container ID >
-# Example : > mydockerinfo master
-alias mydockerinfo='sudo docker inspect --format "{{ .Config.Hostname }} {{ .NetworkSettings.IPAddress }} {{ .Id }}"'
 
-# Get all containers' names and IP addresses
+# Print column names for docker info command
+function mydockerinfo_header () {
+  # Print column names
+  echo "Hostname , IPAddress , Container ID, Linked containers" 
+}
+
+#### Docker commands #####
+
+# Get a container's name, IP address , ID, and linked containers
+# usage : mydockerinfo_base <container name OR container ID >
+# Example : > mydockerinfo_base master
+# Parameters : 
+# #$1 : container name
+function mydockerinfo_base() {
+  local _container_name=$1
+  # Print container info
+  sudo docker inspect --format "{{ .Config.Hostname }} , {{ .NetworkSettings.IPAddress }} , {{ .Id }} , {{ .HostConfig.Links }}" $_container_name
+}
+
+# Print a container's name, IP address , ID, and linked containers in csv format
+# with an information header containing the column names printed above
+# usage : mydockerinfo_csv <container name OR container ID >
+# Example : > mydockerinfo_csv master
+# Parameters : 
+# #$1 : container name
+function mydockerinfo_csv() {
+  local _container_name=$1
+  # Print column names
+  mydockerinfo_header
+  # Print container info
+  mydockerinfo_base $_container_name
+}
+
+# Pretty print helper for the above function
+# Display the info in a tabular format
+# Parameters : 
+# #$1 : container name
+function mydockerinfo() {
+  local _container_name=$1
+  mydockerinfo_csv $_container_name | column -s ',' -t
+}
+
+# Get all containers' name, IP address , ID, and linked containers in csv format
 # usage : mydockerallinfo 
-alias mydockerallinfo='sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .Config.Hostname }} {{ .NetworkSettings.IPAddress }}
-"'
+function mydockerallinfo_csv() {
+
+  # Print column names
+  mydockerinfo_header; 
+  sudo docker ps | tail -n +2 | while read cid restOfLine; do mydockerinfo_base $cid; done
+}
+
+function mydockerallinfo() {
+  mydockerallinfo_csv | column -s ',' -t
+}
+
+alias mydockerallinfo='{ echo "Hostname , IPAddress , Container ID, Linked containers" ; sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .Config.Hostname }} {{ .NetworkSettings.IPAddress }} {{ .HostConfig.Links }} "; }'
 
 #Get containers' fully qualified names and IP addresses
 # The output of this command is mainly intended to be piped to /etc/hosts file on the host machine
