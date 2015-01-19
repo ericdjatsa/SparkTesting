@@ -54,7 +54,7 @@ $SPARK_SETUP_DIR/0_startdns.sh
 # Start Master node and First slave in parallel
 startingLog "SPARK MASTER"
 
-$SPARK_SETUP_DIR/startnode.sh -n "master" -v $REPO_ROOT_DIR/spark-use-cases/data/booking-data:/opt/data -v $REPO_ROOT_DIR/spark-use-cases/bookingsanalysis:/opt/bookingsanalysis -v $REPO_ROOT_DIR/spark-use-cases/airlinedemo:/opt/airlinedemo -v /tmp/ansible-share:/tmp/ansible-share &
+$SPARK_SETUP_DIR/startnode.sh -n "master" -i pti1/sparkmaster:secondversion -v $REPO_ROOT_DIR/spark-use-cases/data/booking-data:/opt/data -v $REPO_ROOT_DIR/spark-use-cases/bookingsanalysis:/opt/bookingsanalysis -v $REPO_ROOT_DIR/spark-use-cases/airlinedemo:/opt/airlinedemo -v /tmp/ansible-share:/tmp/ansible-share &
 	
 
 startingLog "SPARK SLAVE 1"

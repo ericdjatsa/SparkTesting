@@ -20,7 +20,7 @@ alias mycleanetchosts='sudo sed -i -e "/.example.com/d" -e "/# Docker containers
 # Print column names for docker info command
 function mydockerinfo_header () {
   # Print column names
-  echo "Hostname , IPAddress , Container ID, Linked containers" 
+  echo "Hostname , Domainname, IPAddress , Container ID, Linked containers" 
 }
 
 #### Docker commands #####
@@ -33,7 +33,7 @@ function mydockerinfo_header () {
 function mydockerinfo_base() {
   local _container_name=$1
   # Print container info
-  sudo docker inspect --format "{{ .Config.Hostname }} , {{ .NetworkSettings.IPAddress }} , {{ .Id }} , {{ .HostConfig.Links }}" $_container_name
+  sudo docker inspect --format "{{ .Config.Hostname }} , {{ .Config.Domainname }} , {{ .NetworkSettings.IPAddress }} , {{ .Id }} , {{ .HostConfig.Links }}" $_container_name
 }
 
 # Print a container's name, IP address , ID, and linked containers in csv format
@@ -68,15 +68,17 @@ function mydockerallinfo_csv() {
   sudo docker ps | tail -n +2 | while read cid restOfLine; do mydockerinfo_base $cid; done
 }
 
+# Pretty print helper for the above function
+# Display the info in a tabular format
 function mydockerallinfo() {
   mydockerallinfo_csv | column -s ',' -t
 }
 
-alias mydockerallinfo='{ echo "Hostname , IPAddress , Container ID, Linked containers" ; sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .Config.Hostname }} {{ .NetworkSettings.IPAddress }} {{ .HostConfig.Links }} "; }'
 
 #Get containers' fully qualified names and IP addresses
-# The output of this command is mainly intended to be piped to /etc/hosts file on the host machine
+# The output of this command is mainly intended to be redirected ( with >> ) to /etc/hosts file on the host machine
 # in order to be able to access to services exposed in the docker containers from the host machine browse
+# Example : mydockeretchosts >> /etc/hosts
 alias mydockeretchosts=' { echo "# Docker containers" ; sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .NetworkSettings.IPAddress }}    {{ .Config.Hostname }}.{{ .Config.Domainname }}"; }'
 
 # Connect through ssh to the master container
