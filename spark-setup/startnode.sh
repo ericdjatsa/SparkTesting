@@ -49,4 +49,4 @@ if [ "$containerExists" ];then
 fi
 
 
-docker run -d -t -h $container_name.example.com  $bindVolumes --name $container_name --dns $(docker inspect -f '{{.NetworkSettings.IPAddress}}' dns) --dns-search example.com --link dns:dns --volumes-from dns pti1/sparkmaster:secondversion
+sudo docker run -d -t -h $container_name.example.com  $bindVolumes --name $container_name --dns $(docker inspect -f '{{.NetworkSettings.IPAddress}}' dns) --dns-search example.com --link dns:dns --volumes-from dns pti1/sparkmaster:secondversion

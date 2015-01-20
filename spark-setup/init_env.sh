@@ -72,7 +72,7 @@ function mydockerallinfo() {
   mydockerallinfo_csv | column -s ',' -t
 }
 
-alias mydockerallinfo='{ echo "Hostname , IPAddress , Container ID, Linked containers" ; sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .Config.Hostname }} {{ .NetworkSettings.IPAddress }} {{ .HostConfig.Links }} "; }'
+#alias mydockerallinfo='{ echo "Hostname , IPAddress , Container ID, Linked containers" ; sudo docker ps | tail -n +2 | while read cid restOfLine; do echo $cid; done | xargs sudo docker inspect --format "{{ .Config.Hostname }} {{ .NetworkSettings.IPAddress }} {{ .HostConfig.Links }} "; }'
 
 #Get containers' fully qualified names and IP addresses
 # The output of this command is mainly intended to be piped to /etc/hosts file on the host machine

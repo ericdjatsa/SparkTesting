@@ -10,10 +10,16 @@ To make a jar:
 
 Prepare config on host machine 
 
-host> cd <PROJECT_REPO>/spark-setup
-host> source init_env.sh
+IMP !! Start Docker service - ( If not started )
+host> sudo service docker start 
+
 host> sudo su 
+host> cd <PROJECT_REPO>/spark-setup
+# Start spark cluster
+host>  ./start-all.sh
+host> source init_env.sh
 host> mybackupetchosts
+host> mycleanetchosts
 host> mydockeretchosts >> /etc/hosts
 
 
@@ -42,6 +48,7 @@ __Eg__ :
 
 ```
 * Run standard bookinganalysis 
+    host> mydockergotomaster
     master> cd /opt/bookingsanalysis/src/main/resources
     master> ./runBookingAnalysis_standard.sh
 
