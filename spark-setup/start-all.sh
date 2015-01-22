@@ -58,10 +58,10 @@ $SPARK_SETUP_DIR/startnode.sh -n "master" -i pti1/sparkmaster:secondversion -v $
 	
 
 startingLog "SPARK SLAVE 1"
-$SPARK_SETUP_DIR/startnode.sh -n "slave1"
+$SPARK_SETUP_DIR/startnode.sh -n "slave1" -i pti1/sparkslave:secondversion
 
 # Start the second slave
 startingLog "SPARK SLAVE 2"
-$SPARK_SETUP_DIR/startnode.sh -n "slave2"
+$SPARK_SETUP_DIR/startnode.sh -n "slave2" -i pti1/sparkslave:secondversion
 
 echo "DONE!" 
