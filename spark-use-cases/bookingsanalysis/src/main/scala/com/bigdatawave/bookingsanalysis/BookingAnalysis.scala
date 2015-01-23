@@ -34,11 +34,14 @@ object BookingAnalysis {
     				    							fields(9),fields(10).trim.toInt,fields(11).trim.toFloat))
     
     				    							
-    // Group the bookings by departureCity and destination city then count the occurrences for each combination
+    // Group the bookings by departureAirport and destination airport then count the occurrences for each combination
     val airportpairsCount = bookings.groupBy(booking => (booking.departureAirport,booking.destinationAirport)).mapValues(_.size)				    							
     
-    // Swap keys and values for sorting purpose, then apply sorting on count
-    val airportpairsCountOrdered = (airportpairsCount.map{ case ((city1,city2),count) => (count,(city1,city2)) }).sortByKey(ascending=false)
+    // Sort the resulting map { (airport1,airport2) -> count} by count value
+    val airportpairsCountOrdered = airportpairsCount.sortBy(_._2 , ascending=false, numPartitions=4)
+    
+    // More readable alternative for sorting is :  Swap keys and values for sorting purpose, then apply sorting on count
+    // val airportpairsCountOrdered = (airportpairsCount.map{ case ((airport1,airport2),count) => (count,(airport1,airport2)) }).sortByKey(ascending=false)
     
     // Save output to a textFile
     airportpairsCountOrdered.saveAsTextFile(outputPath)
