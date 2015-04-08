@@ -1,6 +1,8 @@
 === Covered Uses Cases ===
- Please refer to our document shared on Google Drive for a list of use cases to be covered.
+ 
+    Flights Booking count in batch with Spark and Spark SQL
+    Flights Booking count in real time with Spark streaming
+    Flights Delay prediction - machine learning with Spark MLib and Spark streaming
 
-Example Spark app with Maven ( WordCount ) : 
-https://github.com/sryza/simplesparkapp
+
 
